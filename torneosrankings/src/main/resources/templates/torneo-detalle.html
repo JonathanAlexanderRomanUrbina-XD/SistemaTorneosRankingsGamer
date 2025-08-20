@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <title th:text="${title}">Detalle del Torneo</title>
+    <th:block layout:fragment="custom-styles">
+        <style>
+            .torneo-detalle-container {
+                max-width: 1000px;
+                margin: 2rem auto;
+                padding: 2.5rem;
+                background-color: #1e293b; /* bg-slate-800 */
+                border-radius: 0.75rem;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            }
+            .mermaid {
+                background-color: #2b3b55; /* Fondo más claro para el diagrama */
+                padding: 20px;
+                border-radius: 8px;
+                margin-top: 20px;
+                text-align: left;
+                overflow-x: auto;
+                color: #e2e8f0;
+            }
+            /* Estilos específicos para los nodos Mermaid para que coincidan con tu tema */
+            .mermaid .node rect, .mermaid .node circle, .mermaid .node ellipse, .mermaid .node polygon {
+                fill: #60a5fa; /* blue-400 */
+                stroke: #2563eb; /* blue-600 */
+                stroke-width: 2px;
+            }
+            .mermaid .node text {
+                fill: #fff; /* Texto blanco en los nodos */
+            }
+            .mermaid .edgePath .path {
+                stroke: #94a3b8; /* slate-400 */
+                stroke-width: 2px;
+            }
+            .mermaid .edgeLabel {
+                background-color: #2b3b55;
+                color: #e2e8f0;
+                padding: 2px 5px;
+                border-radius: 3px;
+            }
+        </style>
+    </th:block>
+</head>
+<body class="bg-slate-900 text-slate-100">
+<main layout:fragment="content">
+    <div class="torneo-detalle-container">
+        <h1 class="text-4xl font-bold mb-6 text-center" th:text="${torneo.nombre}">Nombre del Torneo</h1>
+        <p class="text-xl text-slate-300 mb-4 text-center">Fecha de inicio: <span th:text="${torneo.fecha_inicio}"></span></p>
+        <p class="text-xl text-slate-300 mb-8 text-center">Juego: <span th:text="${torneo.juego}"></span></p>
+
+        <h2 class="text-3xl font-bold mb-4">Bracket del Torneo</h2>
+        <div class="mermaid">
+            <pre th:text="${mermaidBracketText}"></pre>
+        </div>
+
+        <p class="text-sm text-slate-400 mt-8">Este es el bracket generado para el torneo. Los datos de las partidas se integrarían aquí para un diagrama real.</p>
+        <div class="text-center mt-6">
+            <a th:href="@{/torneos}" class="inline-block px-6 py-3 bg-sky-500 text-slate-900 rounded-lg font-bold hover:bg-sky-600 transition-colors">Volver a Torneos</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

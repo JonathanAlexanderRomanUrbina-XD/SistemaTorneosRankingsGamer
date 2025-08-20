@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <title>Recuperar Contraseña</title>
+    <th:block layout:fragment="custom-styles">
+        <style>
+            .recover-container {
+                max-width: 400px;
+                margin: 4rem auto;
+                padding: 2.5rem;
+                background-color: #1e293b; /* bg-slate-800 */
+                border-radius: 0.75rem;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            }
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+            .form-group label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 500;
+                color: #cbd5e1;
+            }
+            .form-group input {
+                width: 100%;
+                padding: 0.75rem 1rem;
+                border: 1px solid #475569;
+                border-radius: 0.5rem;
+                background-color: #334155;
+                color: #f8fafc;
+                outline: none;
+                transition: border-color 0.2s ease-in-out;
+            }
+            .form-group input:focus {
+                border-color: #0ea5e9;
+                box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.3);
+            }
+            .btn-submit {
+                width: 100%;
+                padding: 0.75rem;
+                background-color: #0ea5e9;
+                color: #0f172a;
+                font-weight: bold;
+                border: none;
+                border-radius: 0.5rem;
+                cursor: pointer;
+                transition: background-color 0.2s ease-in-out;
+            }
+            .btn-submit:hover {
+                background-color: #0284c7;
+            }
+            .text-center {
+                text-align: center;
+            }
+            .text-sm {
+                font-size: 0.875rem;
+            }
+            .mt-4 {
+                margin-top: 1rem;
+            }
+            .text-sky-400 {
+                color: #38bdf8;
+            }
+            .hover\:underline:hover {
+                text-decoration: underline;
+            }
+            .success-message { /* Estilos para mensajes de éxito */
+                color: #10b981; /* green-500 */
+                background-color: #ecfdf5; /* green-50 */
+                border: 1px solid #34d399; /* green-400 */
+                padding: 0.75rem;
+                margin-bottom: 1.5rem;
+                border-radius: 0.5rem;
+                text-align: center;
+                font-weight: 500;
+            }
+        </style>
+    </th:block>
+</head>
+<body class="bg-slate-900 text-slate-100">
+<main layout:fragment="content">
+    <div class="recover-container">
+        <h1 class="text-3xl font-bold text-center mb-6">Recuperar Contraseña</h1>
+
+        <!-- Formulario de Recuperación de Contraseña. La acción th:action y la lógica se implementarán después. -->
+        <p class="text-lg text-slate-300 text-center mb-6">
+            Ingresa tu correo electrónico para enviarte un enlace de recuperación.
+        </p>
+        <form th:action="@{/recuperar-contrasena}" method="post">
+            <div class="form-group">
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <button type="submit" class="btn-submit">Enviar Enlace</button>
+        </form>
+
+        <div class="text-center mt-4 text-sm">
+            <p><a href="/login" class="text-sky-400 hover:underline">Volver al Inicio de Sesión</a></p>
+        </div>
+    </div>
+</main>
+</body>
+</html>

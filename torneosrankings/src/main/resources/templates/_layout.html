@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"> <!-- Importante: layout:decorate="~{layout}" -->
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title != null} ? ${title} + ' - Torneos & Rankings' : 'Torneos & Rankings'">
+        Torneos & Rankings
+    </title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- CSS personalizado -->
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+
+    <!-- PUNTO DE INSERCIÓN PARA CSS ESPECÍFICO DE CADA PÁGINA -->
+    <th:block layout:fragment="custom-styles"></th:block>
+
+    <!-- INCLUSIÓN DE LIBRERÍAS DE DIAGRAMAS EN EL HEAD SI ES NECESARIO -->
+    <!-- Para vis.js, el CSS es preferible en el head para evitar FOUC (Flash of Unstyled Content) -->
+    <!-- Descomenta si vas a usar vis.js -->
+    <!-- <link href="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.css" rel="stylesheet" type="text/css" /> -->
+
+</head>
+
+<body class="bg-slate-900 text-slate-100">
+
+<nav class="bg-slate-800 px-6 py-4 flex gap-4 items-center">
+    <a th:href="@{/}"                   class="font-semibold hover:text-sky-300">Inicio</a>
+    <a th:href="@{/jugadores}"         class="hover:text-sky-300">Jugadores</a>
+    <a th:href="@{/equipos}"           class="hover:text-sky-300">Equipos</a>
+    <a th:href="@{/torneos}"           class="hover:text-sky-300">Torneos</a>
+    <a th:href="@{/partidas}"          class="hover:text-sky-300">Partidas</a>
+    <a th:href="@{/rankings}"          class="hover:text-sky-300">Rankings</a>
+    <a th:href="@{/brackets}"          class="hover:text-sky-300">Brackets</a>
+    <a th:href="@{/reportes}"          class="hover:text-sky-300">Reportes</a>
+    <a th:href="@{/moderacion}"        class="hover:text-sky-300">Moderación</a>
+</nav>
+
+<!-- PUNTO DE INSERCIÓN PARA EL CONTENIDO PRINCIPAL DE CADA PÁGINA -->
+<main class="p-6 max-w-6xl mx-auto" layout:fragment="content"></main>
+
+<!-- INCLUSIÓN DE LIBRERÍAS DE DIAGRAMAS ANTES DEL CIERRE DEL BODY -->
+<!-- Opción 1: Mermaid.js -->
+<!-- Descomenta estas líneas si vas a usar Mermaid.js para los diagramas -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializa Mermaid para que detecte y renderice los bloques con la clase 'mermaid'
+        mermaid.initialize({ startOnLoad: true });
+    });
+</script>
+
+<!-- Opción 2: vis.js -->
+<!-- Descomenta esta línea si vas a usar vis.js para los diagramas -->
+<!-- <script type="text/javascript" src="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.js"></script> -->
+
+<!-- PUNTO DE INSERCIÓN PARA SCRIPTS ESPECÍFICOS DE CADA PÁGINA -->
+<th:block layout:fragment="custom-scripts"></th:block>
+
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Partidas</title>
+    <style>
+        body {
+          text-align: center;
+          font-family: Arial, sans-serif;
+          background-color: #0f172a;
+          color: #e2e8f0;
+        }
+
+        /* Tailwind CSS emulation for the provided classes */
+        .w-full {
+            width: 100%;
+        }
+        .text-sm {
+            font-size: 0.875rem; /* 14px */
+        }
+        .border-separate {
+            border-collapse: separate;
+        }
+        .border-spacing-y-1 {
+            border-spacing: 0 0.25rem; /* 4px */
+        }
+        .text-slate-300 {
+            color: #cbd5e1;
+        }
+        .text-left {
+            text-align: left;
+        }
+        .bg-slate-800\/60 {
+            background-color: rgba(30, 41, 59, 0.6);
+        }
+        .px-3 {
+            padding-left: 0.75rem; /* 12px */
+            padding-right: 0.75rem; /* 12px */
+        }
+        .py-2 {
+            padding-top: 0.5rem; /* 8px */
+            padding-bottom: 0.5rem; /* 8px */
+        }
+        .border {
+            border-width: 1px;
+        }
+        .border-slate-700 {
+            border-color: #334155;
+        }
+        .rounded-md {
+            border-radius: 0.375rem; /* 6px */
+        }
+        .p-4 {
+            padding: 1rem; /* 16px */
+        }
+        .flex {
+            display: flex;
+        }
+        .gap-2 {
+            gap: 0.5rem; /* 8px */
+        }
+        .items-center {
+            align-items: center;
+        }
+        .w-16 {
+            width: 4rem; /* 64px */
+        }
+        .px-2 {
+            padding-left: 0.5rem; /* 8px */
+            padding-right: 0.5rem; /* 8px */
+        }
+        .py-1 {
+            padding-top: 0.25rem; /* 4px */
+            padding-bottom: 0.25rem; /* 4px */
+        }
+        .rounded {
+            border-radius: 0.25rem; /* 4px */
+        }
+        .bg-slate-700 {
+            background-color: #334155;
+        }
+        .bg-emerald-500 {
+            background-color: #10b981;
+        }
+        .hover\:bg-emerald-600:hover {
+            background-color: #059669;
+        }
+    </style>
+</head>
+
+<body>
+
+<section layout:fragment="content">
+
+    <h1 class="text-xl font-bold mb-4">Partidas</h1>
+
+    <form th:action="@{/partidas}" method="post"
+
+          class="grid gap-3 max-w-xl mb-6">
+
+        <label class="text-slate-300">Torneo</label>
+
+        <select name="torneoId" class="px-3 py-2 rounded bg-slate-800">
+
+            <option th:each="t : ${torneos}"
+
+                    th:value="${t.id}" th:text="${t.nombre}"></option>
+
+        </select>
+
+        <label class="text-slate-300">Equipo A</label>
+
+        <select name="equipoAId" class="px-3 py-2 rounded bg-slate-800">
+
+            <option th:each="e : ${equipos}"
+
+                    th:value="${e.id}" th:text="${e.nombre}"></option>
+
+        </select>
+
+        <label class="text-slate-300">Equipo B</label>
+
+        <select name="equipoBId" class="px-3 py-2 rounded bg-slate-800">
+
+            <option th:each="e : ${equipos}"
+
+                    th:value="${e.id}" th:text="${e.nombre}"></option>
+
+        </select>
+
+        <button class="px-3 py-2 rounded bg-sky-500 hover:bg-sky-600">
+
+            Crear Partida
+
+        </button>
+
+    </form>
+
+    <h2 class="text-lg font-semibold mb-2">Registrar Resultados</h2>
+
+    <table class="w-full text-sm border-separate border-spacing-y-1">
+
+        <thead class="text-slate-300">
+
+        <tr>
+
+            <th>ID</th>
+
+            <th>Torneo</th>
+
+            <th>Equipo A</th>
+
+            <th>Equipo B</th>
+
+            <th>Estado</th>
+
+            <th>Resultado</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <tr th:each="p : ${partidas}" class="bg-slate-800/60">
+
+            <td class="px-3 py-2" th:text="${p.id}"></td>
+
+            <td class="px-3 py-2" th:text="${p.torneo.nombre}"></td>
+
+            <td class="px-3 py-2" th:text="${p.equipoA.nombre}"></td>
+
+            <td class="px-3 py-2" th:text="${p.equipoB.nombre}"></td>
+
+            <td class="px-3 py-2" th:text="${p.estado}"></td>
+
+            <td class="px-3 py-2">
+
+                <form th:action="@{'/partidas/' + ${p.id} + '/resultado'}"
+
+                      method="post" class="flex gap-2 items-center">
+
+                    <input type="number" min="0" name="puntajeA"
+
+                           class="w-16 px-2 py-1 rounded bg-slate-700" placeholder="A">
+
+                    <input type="number" min="0" name="puntajeB"
+
+                           class="w-16 px-2 py-1 rounded bg-slate-700" placeholder="B">
+
+                    <button class="px-2 py-1 rounded bg-emerald-500 hover:bg-emerald-600">
+
+                        Guardar
+
+                    </button>
+
+                </form>
+
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <title>Equipos</title>
+    <style layout:fragment="custom-styles">
+        /* Estilos CSS inline específicos para esta página */
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #0f172a;
+          color: #e2e8f0;
+        }
+        /* Centrar formularios y tablas */
+        .form-container, .table-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centra los elementos hijos horizontalmente */
+            justify-content: center; /* Centra los elementos hijos verticalmente (si hay espacio) */
+            width: 100%; /* Asegura que el contenedor ocupe el ancho completo para centrar */
+        }
+
+        /* Centrar elementos de bloque como el formulario y la tabla misma */
+        form.centered-form {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        table.centered-table {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Ajustes para los th de las tablas (centrar texto si aplica) */
+        .centered-table th, .centered-table td {
+            text-align: center; /* Centra el texto en celdas y encabezados de tabla */
+        }
+        .centered-table th.text-left, .centered-table td.text-left {
+            text-align: left; /* Mantener la alineación izquierda si se especifica */
+        }
+        /* Ajuste para el espaciado de las celdas */
+        .centered-table td {
+            padding: 0.8rem 1.2rem; /* Ajusta el padding para dar más espacio */
+        }
+    </style>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="form-container">
+        <h1 class="text-xl font-bold mb-4">Equipos</h1>
+
+        <form th:action="@{/equipos}" th:object="${equipo}" method="post"
+              class="grid gap-3 max-w-xl mb-6 centered-form">
+            <input class="px-3 py-2 rounded bg-slate-800"
+                   th:field="*{nombre}" placeholder="Nombre del equipo">
+            <label class="text-slate-300">Miembros</label>
+            <select name="miembrosIds" multiple class="h-40 px-3 py-2 rounded bg-slate-800">
+                <option th:each="j : ${jugadores}"
+                        th:value="${j.id}" th:text="${j.nombre}"></option>
+            </select>
+            <button class="px-3 py-2 rounded bg-sky-500 hover:bg-sky-600">
+                Crear Equipo
+            </button>
+        </form>
+    </div>
+
+    <div class="table-container">
+        <table class="w-full text-sm border-separate border-spacing-y-1 centered-table">
+            <thead class="text-slate-300">
+            <tr>
+                <th class="text-left">ID</th>
+                <th class="text-left">Equipo</th>
+                <th>Miembros</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="e : ${equipos}" class="bg-slate-800/60">
+                <td class="px-3 py-2" th:text="${e.id}"></td>
+                <td class="px-3 py-2" th:text="${e.nombre}"></td>
+                <td class="px-3 py-2">
+                <span th:each="m : ${e.miembros}"
+                      class="mr-2" th:text="${m.nombre}"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

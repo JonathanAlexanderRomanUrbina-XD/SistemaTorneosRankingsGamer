@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}"> <!-- Asegúrate de que esto apunta a tu archivo _layout.html -->
+<head>
+    <title>Brackets</title>
+    <!-- El fragmento custom-styles se insertará en el <head> de _layout.html -->
+    <th:block layout:fragment="custom-styles">
+        <style>
+            /* Aunque el body ya tiene un color de fondo global, si necesitas sobrescribir, hazlo aquí */
+            /* body { text-align: center; } */
+            .bracket-container {
+                max-width: 900px; /* Ajusta el ancho para el diagrama */
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #1e293b; /* bg-slate-800 */
+                border-radius: 8px;
+            }
+            /* Estilos específicos para los diagramas Mermaid */
+            .mermaid {
+                background-color: #2b3b55; /* Fondo más claro para el diagrama */
+                padding: 20px;
+                border-radius: 8px;
+                margin-top: 20px;
+                text-align: left; /* Alineación del texto dentro del diagrama */
+                overflow-x: auto; /* Para scroll si el diagrama es muy ancho */
+                color: #e2e8f0; /* Color de texto general para el diagrama */
+            }
+            /* Estilos específicos para los nodos Mermaid para que coincidan con tu tema */
+            .mermaid .node rect, .mermaid .node circle, .mermaid .node ellipse, .mermaid .node polygon {
+                fill: #60a5fa; /* blue-400 */
+                stroke: #2563eb; /* blue-600 */
+                stroke-width: 2px;
+            }
+            .mermaid .node text {
+                fill: #fff; /* Texto blanco en los nodos */
+            }
+            .mermaid .edgePath .path {
+                stroke: #94a3b8; /* slate-400 */
+                stroke-width: 2px;
+            }
+            .mermaid .edgeLabel {
+                background-color: #2b3b55;
+                color: #e2e8f0;
+                padding: 2px 5px;
+                border-radius: 3px;
+            }
+        </style>
+    </th:block>
+</head>
+<body class="bg-slate-900 text-slate-100"> <!-- Las clases de bg y texto ya están aquí para consistencia global -->
+<main layout:fragment="content">
+    <h1 class="text-3xl font-bold mb-6 text-center">Visualización de Brackets</h1>
+
+    <div class="bracket-container">
+        <p class="text-lg text-slate-300">Este es un diagrama de ejemplo de las llaves de tus torneos. Se puede generar dinámicamente con datos reales.</p>
+
+        <!-- Aquí es donde se insertará el diagrama Mermaid -->
+        <div class="mermaid">
+            graph TD
+            subgraph Ronda 1
+            P1A(Jugador A) --> M1;
+            P1B(Jugador B) --> M1;
+            P1C(Jugador C) --> M2;
+            P1D(Jugador D) --> M2;
+            end
+
+            subgraph Ronda 2
+            M1[R1: G. M1] --> M3;
+            M2[R1: G. M2] --> M3;
+            M3[R2: G. M3] --> Final(Final);
+            end
+
+            Final --> Campeon(🏆 Campeón 🏆);
+
+            click P1A "javascript:alert('Detalles de Jugador A')"
+            click Campeon "javascript:alert('¡Felicitaciones al Campeón!')"
+
+            linkStyle 0,1,2,3 stroke:#94a3b8,stroke-width:2px;
+            linkStyle 4,5 stroke:#94a3b8,stroke-width:2px;
+            linkStyle 6 stroke:#94a3b8,stroke-width:2px;
+
+            style P1A fill:#cbd5e1,stroke:#64748b,stroke-width:2px,color:#1e293b;
+            style P1B fill:#cbd5e1,stroke:#64748b,stroke-width:2px,color:#1e293b;
+            style P1C fill:#cbd5e1,stroke:#64748b,stroke-width:2px,color:#1e293b;
+            style P1D fill:#cbd5e1,stroke:#64748b,stroke-width:2px,color:#1e293b;
+
+            style M1 fill:#60a5fa,stroke:#2563eb,stroke-width:2px,color:#fff;
+            style M2 fill:#60a5fa,stroke:#2563eb,stroke-width:2px,color:#fff;
+            style M3 fill:#facc15,stroke:#b45309,stroke-width:2px,color:#333;
+
+            style Final fill:#c084fc,stroke:#7e22ce,stroke-width:2px,color:#fff;
+            style Campeon fill:#f87171,stroke:#dc2626,stroke-width:3px,color:#fff;
+        </div>
+
+        <p class="text-sm text-slate-400 mt-4">Este diagrama es un ejemplo estático. Para datos dinámicos, el contenido dentro del bloque 'mermaid' se generaría desde tu controlador usando Thymeleaf.</p>
+    </div>
+</main>
+</body>
+</html>

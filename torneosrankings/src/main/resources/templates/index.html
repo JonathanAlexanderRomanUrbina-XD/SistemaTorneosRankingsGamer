@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <title>Inicio</title>
+    <style layout:fragment="custom-styles">
+        body {
+          text-align: center;
+          font-family: Arial, sans-serif;
+          background-color: #0f172a;
+          color: #e2e8f0;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 1rem;
+        }
+
+        .nav-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 1rem;
+            background-color: #1e293b;
+            color: #e2e8f0;
+            border: 1px solid #334155;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+        }
+
+        .nav-button:hover {
+            background-color: #38bdf8;
+            color: #0f172a;
+            border-color: #38bdf8;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-button i {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            color: #60a5fa;
+        }
+
+        .nav-button:hover i {
+            color: #0f172a;
+        }
+    </style>
+</head>
+<body>
+<section layout:fragment="content">
+    <h1 class="text-2xl font-bold mb-4">Sistema de Torneos y Rankings Gamer</h1>
+    <p class="text-slate-300">
+        Crea torneos, registra resultados y visualiza los rankings en tiempo real.
+    </p>
+    <div class="button-grid">
+        <a th:href="@{/jugadores}" class="nav-button">
+            <i class="fas fa-users"></i>
+            <span>Jugadores</span>
+        </a>
+        <a th:href="@{/equipos}" class="nav-button">
+            <i class="fas fa-shield-alt"></i>
+            <span>Equipos</span>
+        </a>
+        <a th:href="@{/torneos}" class="nav-button">
+            <i class="fas fa-trophy"></i>
+            <span>Torneos</span>
+        </a>
+        <a th:href="@{/partidas}" class="nav-button">
+            <i class="fas fa-gamepad"></i>
+            <span>Partidas</span>
+        </a>
+        <a th:href="@{/rankings}" class="nav-button">
+            <i class="fas fa-medal"></i>
+            <span>Rankings</span>
+        </a>
+        <!-- Nuevos botones -->
+        <a th:href="@{/brackets}" class="nav-button">
+            <i class="fas fa-sitemap"></i>
+            <span>Brackets</span>
+        </a>
+        <a th:href="@{/reportes}" class="nav-button">
+            <i class="fas fa-file-pdf"></i>
+            <span>Reportes / PDF</span>
+        </a>
+        <a th:href="@{/moderacion}" class="nav-button">
+            <i class="fas fa-user-shield"></i>
+            <span>Panel de Moderación</span>
+        </a>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}"> <!-- Asegúrate de que esto apunta a tu archivo _layout.html -->
+<head>
+    <title>Moderación</title>
+    <!-- El fragmento custom-styles se insertará en el <head> de _layout.html -->
+    <th:block layout:fragment="custom-styles">
+        <style>
+            /* Puedes mantener el text-align si lo deseas para el body, pero globalmente ya lo maneja Tailwind */
+            /* body { text-align: center; } */
+
+            .mod-panel {
+                max-width: 900px; /* Un poco más ancho para la tabla */
+                margin: 1rem auto;
+                padding: 20px;
+                background-color: #1e293b; /* bg-slate-800 */
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            .mod-panel table {
+                /* margin: 0 auto;  Tailwind w-full ya lo centra si el padre está centrado */
+                /* width: 100%; ya está con w-full */
+                border-collapse: separate; /* Permite border-spacing */
+            }
+            /* Estilos para las celdas de la tabla */
+            .mod-panel th, .mod-panel td {
+                padding: 10px 15px;
+                text-align: left; /* Alineación del texto por defecto en tablas */
+            }
+            .mod-panel th {
+                border-bottom: 2px solid #334155; /* slate-700 */
+                font-weight: 600; /* semibold */
+            }
+            .mod-panel tbody tr {
+                transition: background-color 0.2s ease-in-out;
+            }
+            .mod-panel tbody tr:hover {
+                background-color: #334155; /* slate-700 */
+            }
+        </style>
+    </th:block>
+</head>
+<body style="background-color: #0f172a; color: #e2e8f0;"> <!-- Mantiene las clases de fondo y texto del layout -->
+<main layout:fragment="content">
+    <h1 class="text-3xl font-bold mb-6 text-center" style="color: #f8fafc;">Panel de Moderación</h1>
+    <div class="mod-panel">
+        <p class="text-lg text-slate-300 mb-6 text-center">
+            Aquí los moderadores pueden gestionar usuarios, torneos y contenidos.
+        </p>
+        <h2 class="text-xl font-semibold mb-4 text-slate-200">Acciones Recientes / Pendientes</h2>
+        <table class="w-full text-base border-spacing-y-2"> <!-- Adjusted text-sm to text-base, increased border-spacing -->
+            <thead class="text-slate-300 bg-slate-700/50"> <!-- Added background to header -->
+            <tr>
+                <th class="rounded-tl-lg">ID</th>
+                <th>Entidad</th>
+                <th class="rounded-tr-lg text-center">Acción</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Ejemplo de fila: Puedes generar esto dinámicamente con Thymeleaf -->
+            <tr class="bg-slate-800/60 rounded-lg">
+                <td class="rounded-l-lg">123</td>
+                <td>Usuario: `usuario@example.com`</td>
+                <td class="text-center rounded-r-lg">
+                    <a th:href="@{'/moderacion/ban/123'}"
+                       class="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700 font-semibold transition duration-200 ease-in-out">
+                        Banear
+                    </a>
+                </td>
+            </tr>
+            <tr class="bg-slate-800/60 rounded-lg">
+                <td class="rounded-l-lg">124</td>
+                <td>Torneo: `Torneo de Verano`</td>
+                <td class="text-center rounded-r-lg">
+                    <a th:href="@{'/moderacion/review/124'}"
+                       class="px-4 py-2 rounded-md bg-sky-600 hover:bg-sky-700 font-semibold transition duration-200 ease-in-out">
+                        Revisar
+                    </a>
+                </td>
+            </tr>
+            <tr class="bg-slate-800/60 rounded-lg">
+                <td class="rounded-l-lg">125</td>
+                <td>Comentario: `Spam detectado`</td>
+                <td class="text-center rounded-r-lg">
+                    <a th:href="@{'/moderacion/delete/125'}"
+                       class="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700 font-semibold transition duration-200 ease-in-out">
+                        Eliminar
+                    </a>
+                </td>
+            </tr>
+            <!-- Más filas aquí -->
+            <tr th:if="${#lists.isEmpty(accionesPendientes)}">
+                <td colspan="3" class="text-center py-4 text-slate-400">No hay acciones pendientes de moderación.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>
