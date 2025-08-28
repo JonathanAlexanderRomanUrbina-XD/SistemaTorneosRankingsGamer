@@ -2,99 +2,143 @@
 <html lang="es"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{_layout}"> <!-- Asegúrate de que esto apunta a tu archivo _layout.html -->
+      layout:decorate="~{_layout}">
 <head>
     <title>Brackets</title>
-    <!-- El fragmento custom-styles se insertará en el <head> de _layout.html -->
     <th:block layout:fragment="custom-styles">
         <style>
-            /* Aunque el body ya tiene un color de fondo global, si necesitas sobrescribir, hazlo aquí */
-            /* body { text-align: center; } */
+            body {
+                background: linear-gradient(135deg, #3b82f6, #9333ea);
+                color: #f9fafb;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+                min-height: 100vh;
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+                font-weight: 800;
+                text-align: center;
+                color: #ffeb3b;
+                text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+                margin-bottom: 1rem;
+            }
+
             .bracket-container {
-                max-width: 900px; /* Ajusta el ancho para el diagrama */
+                max-width: 900px;
                 margin: 0 auto;
                 padding: 20px;
-                background-color: #1e293b; /* bg-slate-800 */
-                border-radius: 8px;
+                background: rgba(30,41,59,0.85);
+                border-radius: 12px;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.4);
             }
-            /* Estilos específicos para los diagramas Mermaid */
-            .mermaid {
-                background-color: #2b3b55; /* Fondo más claro para el diagrama */
+
+            .mermaid-placeholder {
+                background: linear-gradient(135deg, #1e3a8a, #14b8a6);
                 padding: 20px;
-                border-radius: 8px;
+                border-radius: 10px;
                 margin-top: 20px;
-                text-align: left; /* Alineación del texto dentro del diagrama */
-                overflow-x: auto; /* Para scroll si el diagrama es muy ancho */
-                color: #e2e8f0; /* Color de texto general para el diagrama */
+                overflow-x: auto;
+                color: #fff;
             }
-            /* Estilos específicos para los nodos Mermaid para que coincidan con tu tema */
-            .mermaid .node rect, .mermaid .node circle, .mermaid .node ellipse, .mermaid .node polygon {
-                fill: #60a5fa; /* blue-400 */
-                stroke: #2563eb; /* blue-600 */
-                stroke-width: 2px;
+
+            /* Personalización de nodos Mermaid */
+            #myMermaidGraph svg .node rect,
+            #myMermaidGraph svg .node circle,
+            #myMermaidGraph svg .node ellipse,
+            #myMermaidGraph svg .node polygon {
+                stroke-width: 3px;
             }
-            .mermaid .node text {
-                fill: #fff; /* Texto blanco en los nodos */
+
+            #myMermaidGraph svg .node text {
+                fill: #fff;
+                font-weight: bold;
             }
-            .mermaid .edgePath .path {
-                stroke: #94a3b8; /* slate-400 */
-                stroke-width: 2px;
+
+            #myMermaidGraph svg .edgePath .path {
+                stroke: #facc15; /* Amarillo vivo */
+                stroke-width: 2.5px;
             }
-            .mermaid .edgeLabel {
-                background-color: #2b3b55;
-                color: #e2e8f0;
-                padding: 2px 5px;
-                border-radius: 3px;
+
+            /* Botón mejorado */
+            .compact-button {
+                display: inline-flex;
+                align-items: center;
+                padding: 0.6rem 1.2rem;
+                background: linear-gradient(90deg, #22c55e, #84cc16);
+                color: #fff;
+                border-radius: 0.5rem;
+                font-size: 0.95rem;
+                font-weight: 700;
+                text-decoration: none;
+                transition: all 0.3s ease-in-out;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            }
+
+            .compact-button:hover {
+                background: linear-gradient(90deg, #4ade80, #a3e635);
+                transform: scale(1.05);
+                box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+            }
+
+            .compact-button svg {
+                margin-right: 0.5rem;
+                height: 1.25rem;
+                width: 1.25rem;
+            }
+
+            p {
+                color: #d1d5db;
+                margin-top: 1rem;
             }
         </style>
     </th:block>
 </head>
-<body class="bg-slate-900 text-slate-100"> <!-- Las clases de bg y texto ya están aquí para consistencia global -->
+<body>
 <main layout:fragment="content">
-    <h1 class="text-3xl font-bold mb-6 text-center">Visualización de Brackets</h1>
+    <div class="mb-4" style="text-align:center;">
+        <a th:href="@{/dashboard}" class="compact-button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+            </svg>
+            <span>Regresar al Dashboard</span>
+        </a>
+    </div>
+
+    <h1>Visualización de Brackets</h1>
 
     <div class="bracket-container">
-        <p class="text-lg text-slate-300">Este es un diagrama de ejemplo de las llaves de tus torneos. Se puede generar dinámicamente con datos reales.</p>
+        <p class="text-lg">Este es un diagrama de ejemplo de las llaves de tus torneos. Se puede generar dinámicamente con datos reales.</p>
 
-        <!-- Aquí es donde se insertará el diagrama Mermaid -->
-        <div class="mermaid">
-            graph TD
-            subgraph Ronda 1
-            P1A(Jugador A) --> M1;
-            P1B(Jugador B) --> M1;
-            P1C(Jugador C) --> M2;
-            P1D(Jugador D) --> M2;
-            end
-
-            subgraph Ronda 2
-            M1[R1: G. M1] --> M3;
-            M2[R1: G. M2] --> M3;
-            M3[R2: G. M3] --> Final(Final);
-            end
-
-            Final --> Campeon(🏆 Campeón 🏆);
-
-            click P1A "javascript:alert('Detalles de Jugador A')"
-            click Campeon "javascript:alert('¡Felicitaciones al Campeón!')"
-
-            linkStyle 0,1,2,3 stroke:#94a3b8,stroke-width:2px;
-            linkStyle 4,5 stroke:#94a3b8,stroke-width:2px;
-            linkStyle 6 stroke:#94a3b8,stroke-width:2px;
-
-            style P1A fill:#cbd5e1,stroke:#64748b,stroke-width:2px,color:#1e293b;
-            style P1B fill:#cbd5e1,stroke:#64748b,stroke-width:2px,color:#1e293b;
-            style P1C fill:#cbd5e1,stroke:#64748b,stroke-width:2px,color:#1e293b;
-            style P1D fill:#cbd5e1,stroke:#64748b,stroke-width:2px,color:#1e293b;
-
-            style M1 fill:#60a5fa,stroke:#2563eb,stroke-width:2px,color:#fff;
-            style M2 fill:#60a5fa,stroke:#2563eb,stroke-width:2px,color:#fff;
-            style M3 fill:#facc15,stroke:#b45309,stroke-width:2px,color:#333;
-
-            style Final fill:#c084fc,stroke:#7e22ce,stroke-width:2px,color:#fff;
-            style Campeon fill:#f87171,stroke:#dc2626,stroke-width:3px,color:#fff;
+        <div id="myMermaidGraph" class="mermaid-placeholder">
+            <pre th:text="${mermaidBracketText}">
+                graph TD
+                    subgraph Ronda 1
+                    P1A(Jugador A) --> M1;
+                    P1B(Jugador B) --> M1;
+                    P1C(Jugador C) --> M2;
+                    P1D(Jugador D) --> M2;
+                    end
+                    subgraph Ronda 2
+                    M1[R1: G. M1] --> M3;
+                    M2[R1: G. M2] --> M3;
+                    M3[R2: G. M3] --> Final(Final);
+                    end
+                    Final --> Campeon(🏆 Campeón 🏆);
+                    style P1A fill:#06b6d4,stroke:#0891b2,color:#fff;
+                    style P1B fill:#f97316,stroke:#c2410c,color:#fff;
+                    style P1C fill:#10b981,stroke:#047857,color:#fff;
+                    style P1D fill:#ec4899,stroke:#be185d,color:#fff;
+                    style M1 fill:#facc15,stroke:#ca8a04,color:#333;
+                    style M2 fill:#c084fc,stroke:#9333ea,color:#fff;
+                    style M3 fill:#38bdf8,stroke:#0284c7,color:#fff;
+                    style Final fill:#fb7185,stroke:#e11d48,color:#fff;
+                    style Campeon fill:#22c55e,stroke:#15803d,stroke-width:3px,color:#fff;
+            </pre>
         </div>
 
-        <p class="text-sm text-slate-400 mt-4">Este diagrama es un ejemplo estático. Para datos dinámicos, el contenido dentro del bloque 'mermaid' se generaría desde tu controlador usando Thymeleaf.</p>
+        <p class="text-sm">Este diagrama es un ejemplo estático. Para datos dinámicos, el contenido se generaría desde tu controlador con Thymeleaf.</p>
     </div>
 </main>
 </body>

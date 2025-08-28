@@ -8,74 +8,82 @@
     <th:block layout:fragment="custom-styles">
         <style>
             .register-container {
-                max-width: 500px;
-                margin: 4rem auto;
-                padding: 2.5rem;
-                background-color: #1e293b; /* bg-slate-800 */
-                border-radius: 0.75rem;
-                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+              max-width: 420px;
+              margin: 4rem auto;
+              padding: 2.5rem;
+              background: linear-gradient(145deg, #1e3a8a, #9333ea);
+              border-radius: 1rem;
+              box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+              color: #f8fafc;
+              animation: fadeIn 0.8s ease-in-out;
+            }
+            @keyframes fadeIn {
+              from { opacity: 0; transform: scale(0.95); }
+              to   { opacity: 1; transform: scale(1); }
             }
             .form-group {
-                margin-bottom: 1.5rem;
+              margin-bottom: 1.5rem;
             }
             .form-group label {
-                display: block;
-                margin-bottom: 0.5rem;
-                font-weight: 500;
-                color: #cbd5e1;
+              display: block;
+              margin-bottom: 0.5rem;
+              font-weight: 600;
+              color: #f1f5f9;
             }
             .form-group input {
-                width: 100%;
-                padding: 0.75rem 1rem;
-                border: 1px solid #475569;
-                border-radius: 0.5rem;
-                background-color: #334155;
-                color: #f8fafc;
-                outline: none;
-                transition: border-color 0.2s ease-in-out;
+              width: 100%;
+              padding: 0.75rem 1rem;
+              border: 2px solid transparent;
+              border-radius: 0.5rem;
+              background-color: rgba(255, 255, 255, 0.1);
+              color: #fff;
+              outline: none;
+              transition: all 0.3s ease-in-out;
             }
             .form-group input:focus {
-                border-color: #0ea5e9;
-                box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.3);
+              border-color: #38bdf8;
+              box-shadow: 0 0 12px rgba(56, 189, 248, 0.8);
+              background-color: rgba(255, 255, 255, 0.15);
             }
             .btn-submit {
-                width: 100%;
-                padding: 0.75rem;
-                background-color: #0ea5e9;
-                color: #0f172a;
-                font-weight: bold;
-                border: none;
-                border-radius: 0.5rem;
-                cursor: pointer;
-                transition: background-color 0.2s ease-in-out;
+              width: 100%;
+              padding: 0.85rem;
+              background: linear-gradient(90deg, #06b6d4, #3b82f6, #9333ea);
+              color: #fff;
+              font-weight: bold;
+              border: none;
+              border-radius: 0.75rem;
+              cursor: pointer;
+              transition: transform 0.2s ease, box-shadow 0.2s ease;
             }
             .btn-submit:hover {
-                background-color: #0284c7;
+              transform: scale(1.05);
+              box-shadow: 0 8px 20px rgba(56, 189, 248, 0.5);
             }
-            .text-center {
-                text-align: center;
-            }
+            .text-center { text-align: center; }
             .text-sm {
-                font-size: 0.875rem;
+              font-size: 0.875rem;
+              color: #e2e8f0;
             }
-            .mt-4 {
-                margin-top: 1rem;
-            }
+            .mt-4 { margin-top: 1rem; }
             .text-sky-400 {
-                color: #38bdf8;
+              color: #38bdf8;
+              font-weight: 500;
             }
             .hover\:underline:hover {
-                text-decoration: underline;
+              text-decoration: underline;
+              color: #fff;
             }
-            .error-message { /* Estilos para mensajes de error, si los hubiera */
-                color: #ef4444;
-                background-color: #fee2e2;
-                border: 1px solid #f87171;
-                padding: 0.75rem;
-                margin-bottom: 1.5rem;
-                border-radius: 0.5rem;
-                text-align: center;
-                font-weight: 500;
+            .error-message {
+              color: #fff;
+              background: linear-gradient(90deg, #ef4444, #f97316);
+              border: 1px solid #f87171;
+              padding: 0.75rem;
+              margin-bottom: 1.5rem;
+              border-radius: 0.5rem;
+              text-align: center;
+              font-weight: 600;
+              box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
             }
         </style>
     </th:block>
@@ -85,7 +93,9 @@
     <div class="register-container">
         <h1 class="text-3xl font-bold text-center mb-6">Regístrate</h1>
 
-        <!-- Formulario de Registro. La acción th:action y la lógica se implementarán después. -->
+        <!-- Mensaje de error opcional -->
+        <div th:if="${error}" class="error-message" th:text="${error}"></div>
+
         <form th:action="@{/registro}" method="post">
             <div class="form-group">
                 <label for="name">Nombre:</label>
@@ -107,7 +117,9 @@
         </form>
 
         <div class="text-center mt-4 text-sm">
-            <p>¿Ya tienes cuenta? <a href="/login" class="text-sky-400 hover:underline">Iniciar Sesión</a></p>
+            <p>¿Ya tienes cuenta?
+                <a th:href="@{/login}" class="text-sky-400 hover:underline">Iniciar Sesión</a>
+            </p>
         </div>
     </div>
 </main>

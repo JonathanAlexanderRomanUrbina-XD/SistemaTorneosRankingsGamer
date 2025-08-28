@@ -2,42 +2,137 @@
 <html lang="es"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{_layout}"> <!-- Asegúrate de que esto apunta a tu archivo _layout.html -->
+      layout:decorate="~{_layout}">
 <head>
     <title>Reportes</title>
-    <!-- El fragmento custom-styles se insertará en el <head> de _layout.html -->
+
+    <!-- Inserta estos estilos en el <head> de _layout.html -->
     <th:block layout:fragment="custom-styles">
         <style>
+            /* ===== Estilos globales ===== */
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(135deg, #3b82f6, #9333ea);
+                color: #f9fafb;
+                min-height: 100vh;
+                margin: 0;
+                padding: 1rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+                font-weight: 800;
+                color: #ffeb3b;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+
+            /* ===== Botón compacto de regreso ===== */
+            .compact-button {
+                display: inline-flex;
+                align-items: center;
+                padding: 0.6rem 1.2rem;
+                background: linear-gradient(90deg, #22c55e, #16a34a);
+                color: #fff;
+                border-radius: 0.5rem;
+                text-decoration: none;
+                font-size: 0.95rem;
+                font-weight: 700;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+                border: none;
+                cursor: pointer;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+                margin-bottom: 2rem;
+            }
+            .compact-button:hover {
+                background: linear-gradient(90deg, #4ade80, #22c55e);
+                transform: scale(1.05);
+                box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+            }
+            .compact-button svg {
+                margin-right: 0.5rem;
+                height: 1.25rem;
+                width: 1.25rem;
+            }
+
+            /* ===== Contenedor de reportes ===== */
             .reportes-container {
-                max-width: 700px; /* Un poco más de espacio */
-                margin: 2rem auto;
-                padding: 30px; /* Más padding para que se vea mejor */
-                background-color: #1e293b; /* bg-slate-800 */
-                border-radius: 12px; /* Bordes más redondeados */
-                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
-                text-align: center; /* Centra el contenido dentro del contenedor */
+                max-width: 700px;
+                margin: 0 auto;
+                padding: 1.5rem;
+                background-color: rgba(0,0,0,0.3);
+                border-radius: 0.5rem;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+                text-align: center;
+            }
+
+            /* ===== Botón Generar PDF ===== */
+            .btn-pdf {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0.6rem 1.2rem;
+                background: linear-gradient(90deg, #ec4899, #db2777);
+                color: #fff;
+                border: none;
+                border-radius: 0.4rem;
+                font-weight: 700;
+                font-size: 1rem;
+                text-decoration: none;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+                cursor: pointer;
+                margin-top: 1rem;
+            }
+            .btn-pdf:hover {
+                background: linear-gradient(90deg, #f472b6, #ec4899);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            }
+            .btn-pdf i {
+                margin-right: 0.5rem;
+                font-size: 1.25rem;
+            }
+
+            @media (max-width: 768px) {
+                h1 {
+                    font-size: 1.5rem;
+                }
+                .reportes-container {
+                    padding: 1rem;
+                }
             }
         </style>
     </th:block>
 </head>
-<body style="background-color: #0f172a; color: #e2e8f0;"> <!-- Aplicado el color de fondo directamente y color de texto para asegurar contraste -->
+
+<body>
 <main layout:fragment="content">
-    <h1 class="text-3xl font-bold mb-6 text-center" style="color: #f8fafc;">Generación de Reportes y Exportación a PDF</h1>
+    <!-- Botón para regresar al Dashboard -->
+    <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+        <a th:href="@{/dashboard}" class="compact-button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd" />
+            </svg>
+            <span>Regresar al Dashboard</span>
+        </a>
+    </div>
+
+    <h1>Generación de Reportes y Exportación a PDF</h1>
+
     <div class="reportes-container">
-        <p class="text-xl text-slate-300 mb-8">
+        <p style="margin-bottom: 2rem; font-size: 1.125rem; color: #e2e8f0;">
             Descarga los resultados de torneos, brackets detallados y estadísticas de jugadores y equipos en formato PDF.
         </p>
-        <a th:href="@{/reportes/pdf}"
-           class="inline-flex items-center justify-center
-                      px-6 py-3 bg-sky-500 text-slate-900
-                      rounded-lg font-bold shadow-lg
-                      hover:bg-sky-600 transition-colors duration-300
-                      focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-75">
-            <i class="fas fa-file-pdf mr-3 text-xl"></i> <!-- Icono más grande y con más margen -->
+
+        <a th:href="@{/reportes/pdf}" class="btn-pdf">
+            <i class="fas fa-file-pdf"></i>
             Generar Reporte PDF
         </a>
-        <div class="mt-8 text-sm text-slate-400">
-            <p>Próximamente: Opciones avanzadas de filtrado y selección de reportes.</p>
+
+        <div style="margin-top: 2rem; font-size: 0.875rem; color: #cbd5e1;">
+            Próximamente: Opciones avanzadas de filtrado y selección de reportes.
         </div>
     </div>
 </main>

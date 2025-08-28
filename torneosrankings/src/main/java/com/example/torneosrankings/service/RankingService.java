@@ -6,6 +6,7 @@ import com.example.torneosrankings.model.RankingEquipo;
 import com.example.torneosrankings.repository.RankingEquipoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List; // Importar List
 
 @Service
 public class RankingService {
@@ -14,6 +15,11 @@ public class RankingService {
 
     public RankingService(RankingEquipoRepository rankingRepo) {
         this.rankingRepo = rankingRepo;
+    }
+
+    // Método para obtener todos los Rankings de Equipo
+    public List<RankingEquipo> findAll() {
+        return rankingRepo.findAll(); // Método heredado de JpaRepository
     }
 
     private RankingEquipo getOrCreate(Equipo equipo) {
@@ -37,8 +43,10 @@ public class RankingService {
         } else if (p.getPuntajeB() > p.getPuntajeA()) {
             rb.setGanados(rb.getGanados() + 1);
             rb.setPuntos(rb.getPuntos() + 3);
+            // CORREGIDO: Establecer perdidos directamente, no llamar a un método 'perder'
             ra.setPerdidos(ra.getPerdidos() + 1);
         }
+
         rankingRepo.save(ra);
         rankingRepo.save(rb);
     }

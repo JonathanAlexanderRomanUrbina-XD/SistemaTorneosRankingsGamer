@@ -6,81 +6,182 @@
 <head>
     <title>Equipos</title>
     <style layout:fragment="custom-styles">
-        /* Estilos CSS inline específicos para esta página */
+        /* Estilos mejorados con colores vivos */
         body {
-          font-family: Arial, sans-serif;
-          background-color: #0f172a;
-          color: #e2e8f0;
+          text-align: center;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background: linear-gradient(135deg, #3b82f6, #9333ea); /* azul -> morado */
+          color: #f9fafb;
+          min-height: 100vh;
+          margin: 0;
+          padding: 1rem;
         }
-        /* Centrar formularios y tablas */
+
+        h1 {
+          font-size: 1.8rem;
+          font-weight: 800;
+          color: #ffeb3b; /* Amarillo vivo */
+          text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+          margin-bottom: 25px;
+        }
+
+        /* Botón compacto */
+        .compact-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(90deg, #22c55e, #16a34a); /* Verde vivo */
+            color: #fff;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 700;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            margin-bottom: 1rem;
+        }
+
+        .compact-button:hover {
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+            transform: scale(1.05);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+        }
+
+        .compact-button svg {
+            margin-right: 0.5rem;
+            height: 1.25rem;
+            width: 1.25rem;
+        }
+
+        /* Formularios */
+        form input, form select {
+            width: 100%;
+            padding: 0.6rem;
+            border-radius: 0.4rem;
+            border: none;
+            background-color: rgba(255,255,255,0.15);
+            color: #fff;
+            outline: none;
+            transition: background 0.3s;
+        }
+
+        form input:focus, form select:focus {
+            background-color: rgba(255,255,255,0.25);
+        }
+
+        form button {
+            background: linear-gradient(90deg, #ec4899, #db2777); /* Rosa fuerte */
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.4rem;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        form button:hover {
+            background: linear-gradient(90deg, #f472b6, #ec4899);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        /* Tabla */
+        table {
+            width: 100%;
+            border-spacing: 0 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        th {
+            text-align: left;
+            padding: 0.8rem;
+            color: #ffe4e6; /* Rosado claro */
+            font-weight: bold;
+        }
+
+        td {
+            padding: 0.8rem;
+            background: rgba(0,0,0,0.3);
+            border-radius: 0.4rem;
+            transition: background 0.3s;
+        }
+
+        tr:hover td {
+            background: rgba(255,255,255,0.15);
+        }
+
+        td span {
+            display: inline-block;
+            background: linear-gradient(90deg, #f59e0b, #f97316); /* Naranja vivo */
+            color: #fff;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.3rem;
+            margin-right: 4px;
+            margin-bottom: 4px;
+        }
+
+        .max-w-md {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Contenedores */
         .form-container, .table-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* Centra los elementos hijos horizontalmente */
-            justify-content: center; /* Centra los elementos hijos verticalmente (si hay espacio) */
-            width: 100%; /* Asegura que el contenedor ocupe el ancho completo para centrar */
-        }
-
-        /* Centrar elementos de bloque como el formulario y la tabla misma */
-        form.centered-form {
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        table.centered-table {
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Ajustes para los th de las tablas (centrar texto si aplica) */
-        .centered-table th, .centered-table td {
-            text-align: center; /* Centra el texto en celdas y encabezados de tabla */
-        }
-        .centered-table th.text-left, .centered-table td.text-left {
-            text-align: left; /* Mantener la alineación izquierda si se especifica */
-        }
-        /* Ajuste para el espaciado de las celdas */
-        .centered-table td {
-            padding: 0.8rem 1.2rem; /* Ajusta el padding para dar más espacio */
+            max-width: 800px;
+            margin: 0 auto 2rem auto;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 0.6rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
     </style>
 </head>
 <body>
 <section layout:fragment="content">
+    <!-- Botón para regresar al Dashboard -->
+    <div class="mb-4" style="text-align: center; max-width: 800px; margin: 0 auto;">
+        <a th:href="@{/dashboard}" class="compact-button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+            </svg>
+            <span>Regresar al Dashboard</span>
+        </a>
+    </div>
     <div class="form-container">
         <h1 class="text-xl font-bold mb-4">Equipos</h1>
-
         <form th:action="@{/equipos}" th:object="${equipo}" method="post"
               class="grid gap-3 max-w-xl mb-6 centered-form">
-            <input class="px-3 py-2 rounded bg-slate-800"
+            <input class="px-3 py-2 rounded"
                    th:field="*{nombre}" placeholder="Nombre del equipo">
-            <label class="text-slate-300">Miembros</label>
-            <select name="miembrosIds" multiple class="h-40 px-3 py-2 rounded bg-slate-800">
+            <label>Miembros</label>
+            <select name="miembrosIds" multiple>
                 <option th:each="j : ${jugadores}"
                         th:value="${j.id}" th:text="${j.nombre}"></option>
             </select>
-            <button class="px-3 py-2 rounded bg-sky-500 hover:bg-sky-600">
+            <button>
                 Crear Equipo
             </button>
         </form>
     </div>
-
     <div class="table-container">
         <table class="w-full text-sm border-separate border-spacing-y-1 centered-table">
-            <thead class="text-slate-300">
+            <thead>
             <tr>
-                <th class="text-left">ID</th>
-                <th class="text-left">Equipo</th>
+                <th>ID</th>
+                <th>Equipo</th>
                 <th>Miembros</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="e : ${equipos}" class="bg-slate-800/60">
-                <td class="px-3 py-2" th:text="${e.id}"></td>
-                <td class="px-3 py-2" th:text="${e.nombre}"></td>
-                <td class="px-3 py-2">
-                <span th:each="m : ${e.miembros}"
-                      class="mr-2" th:text="${m.nombre}"></span>
+            <tr th:each="e : ${equipos}">
+                <td th:text="${e.id}"></td>
+                <td th:text="${e.nombre}"></td>
+                <td>
+                    <span th:each="m : ${e.miembros}"
+                          th:text="${m.nombre}"></span>
                 </td>
             </tr>
             </tbody>

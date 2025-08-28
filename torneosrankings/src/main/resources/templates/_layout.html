@@ -1,8 +1,7 @@
 <!doctype html>
 <html lang="es"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}"> <!-- Importante: layout:decorate="~{layout}" -->
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"> <!-- Eliminado: layout:decorate="~{layout}" -->
 
 <head>
     <meta charset="UTF-8"/>
@@ -48,7 +47,7 @@
 
 <!-- INCLUSIÓN DE LIBRERÍAS DE DIAGRAMAS ANTES DEL CIERRE DEL BODY -->
 <!-- Opción 1: Mermaid.js -->
-<!-- Descomenta estas líneas si vas a usar Mermaid.js para los diagramas -->
+<!-- Estas líneas ahora están DESCOMENTADAS para que Mermaid funcione -->
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -58,7 +57,7 @@
 </script>
 
 <!-- Opción 2: vis.js -->
-<!-- Descomenta esta línea si vas a usar vis.js para los diagramas -->
+<!-- Esta línea permanece comentada. Descoméntala si decides usar vis.js en lugar de Mermaid. -->
 <!-- <script type="text/javascript" src="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.js"></script> -->
 
 <!-- PUNTO DE INSERCIÓN PARA SCRIPTS ESPECÍFICOS DE CADA PÁGINA -->

@@ -2,56 +2,135 @@
 <html lang="es"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{_layout}"> <!-- Asegúrate de que esto apunta a tu archivo _layout.html -->
+      layout:decorate="~{_layout}">
 <head>
     <title>Moderación</title>
-    <!-- El fragmento custom-styles se insertará en el <head> de _layout.html -->
     <th:block layout:fragment="custom-styles">
         <style>
-            /* Puedes mantener el text-align si lo deseas para el body, pero globalmente ya lo maneja Tailwind */
-            /* body { text-align: center; } */
-
+            /* CORRECCIÓN: Agregado el selector 'body' */
+            body {
+                text-align: center;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(135deg, #3b82f6, #9333ea); /* azul -> morado */
+                color: #f9fafb;
+                min-height: 100vh;
+                margin: 0;
+                padding: 1rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+                font-weight: 800;
+                color: #ffeb3b; /* Amarillo vivo */
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+                margin-bottom: 1rem;
+            }
+            h2 {
+                font-size: 1.4rem;
+                font-weight: 700;
+                color: #ffb347; /* Naranja vivo */
+                margin-top: 2rem;
+                margin-bottom: 0.5rem;
+                text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+            }
             .mod-panel {
-                max-width: 900px; /* Un poco más ancho para la tabla */
+                max-width: 900px;
                 margin: 1rem auto;
                 padding: 20px;
-                background-color: #1e293b; /* bg-slate-800 */
+                background-color: #1e293b;
                 border-radius: 8px;
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             }
             .mod-panel table {
-                /* margin: 0 auto;  Tailwind w-full ya lo centra si el padre está centrado */
-                /* width: 100%; ya está con w-full */
-                border-collapse: separate; /* Permite border-spacing */
+                border-collapse: separate;
             }
-            /* Estilos para las celdas de la tabla */
             .mod-panel th, .mod-panel td {
                 padding: 10px 15px;
-                text-align: left; /* Alineación del texto por defecto en tablas */
+                text-align: left;
             }
             .mod-panel th {
-                border-bottom: 2px solid #334155; /* slate-700 */
-                font-weight: 600; /* semibold */
+                border-bottom: 2px solid #334155;
+                font-weight: 600;
             }
             .mod-panel tbody tr {
                 transition: background-color 0.2s ease-in-out;
             }
             .mod-panel tbody tr:hover {
-                background-color: #334155; /* slate-700 */
+                background-color: #334155;
+            }
+            .compact-button {
+                display: inline-flex;
+                align-items: center;
+                padding: 0.5rem 1rem;
+                background-color: #2563eb;
+                color: #fff;
+                border-radius: 0.375rem;
+                text-decoration: none;
+                font-size: 0.9rem;
+                font-weight: 600;
+                transition: background-color 0.2s ease-in-out;
+                border: none;
+                cursor: pointer;
+            }
+            .compact-button:hover {
+                background-color: #1e40af;
+            }
+            .compact-button svg {
+                margin-right: 0.5rem;
+                height: 1.25rem;
+                width: 1.25rem;
             }
         </style>
     </th:block>
 </head>
-<body style="background-color: #0f172a; color: #e2e8f0;"> <!-- Mantiene las clases de fondo y texto del layout -->
+<body>
 <main layout:fragment="content">
+    <div class="mb-4" style="text-align: center; max-width: 800px; margin: 0 auto;">
+        <a th:href="@{/dashboard}" class="compact-button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+            </svg>
+            <span>Regresar al Dashboard</span>
+        </a>
+    </div>
     <h1 class="text-3xl font-bold mb-6 text-center" style="color: #f8fafc;">Panel de Moderación</h1>
     <div class="mod-panel">
         <p class="text-lg text-slate-300 mb-6 text-center">
             Aquí los moderadores pueden gestionar usuarios, torneos y contenidos.
         </p>
-        <h2 class="text-xl font-semibold mb-4 text-slate-200">Acciones Recientes / Pendientes</h2>
-        <table class="w-full text-base border-spacing-y-2"> <!-- Adjusted text-sm to text-base, increased border-spacing -->
-            <thead class="text-slate-300 bg-slate-700/50"> <!-- Added background to header -->
+        <h2 class="text-xl font-semibold mb-4 text-slate-200">Moderadores Registrados</h2>
+        <table class="w-full text-base border-spacing-y-2">
+            <thead class="text-slate-300 bg-slate-700/50">
+            <tr>
+                <th class="rounded-tl-lg">ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th class="rounded-tr-lg text-center">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="mod : ${moderadores}" class="bg-slate-800/60 rounded-lg">
+                <td class="rounded-l-lg" th:text="${mod.id}"></td>
+                <td th:text="${mod.nombre}"></td>
+                <td th:text="${mod.email}"></td>
+                <td class="text-center rounded-r-lg">
+                    <a th:href="@{'/moderacion/ver-perfil/' + ${mod.id}}"
+                       class="px-3 py-1 rounded-md bg-sky-600 hover:bg-sky-700 font-semibold text-sm transition duration-200 ease-in-out mr-2">
+                        Ver Perfil
+                    </a>
+                    <a th:href="@{'/moderacion/editar/' + ${mod.id}}"
+                       class="px-3 py-1 rounded-md bg-yellow-600 hover:bg-yellow-700 font-semibold text-sm transition duration-200 ease-in-out">
+                        Editar
+                    </a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(moderadores)}">
+                <td colspan="4" class="text-center py-4 text-slate-400">No hay moderadores registrados.</td>
+            </tr>
+            </tbody>
+        </table>
+        <h2 class="text-xl font-semibold mb-4 mt-8 text-slate-200">Acciones Pendientes (Ejemplo Estático)</h2>
+        <table class="w-full text-base border-spacing-y-2">
+            <thead class="text-slate-300 bg-slate-700/50">
             <tr>
                 <th class="rounded-tl-lg">ID</th>
                 <th>Entidad</th>
@@ -59,7 +138,6 @@
             </tr>
             </thead>
             <tbody>
-            <!-- Ejemplo de fila: Puedes generar esto dinámicamente con Thymeleaf -->
             <tr class="bg-slate-800/60 rounded-lg">
                 <td class="rounded-l-lg">123</td>
                 <td>Usuario: `usuario@example.com`</td>
@@ -80,19 +158,8 @@
                     </a>
                 </td>
             </tr>
-            <tr class="bg-slate-800/60 rounded-lg">
-                <td class="rounded-l-lg">125</td>
-                <td>Comentario: `Spam detectado`</td>
-                <td class="text-center rounded-r-lg">
-                    <a th:href="@{'/moderacion/delete/125'}"
-                       class="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700 font-semibold transition duration-200 ease-in-out">
-                        Eliminar
-                    </a>
-                </td>
-            </tr>
-            <!-- Más filas aquí -->
             <tr th:if="${#lists.isEmpty(accionesPendientes)}">
-                <td colspan="3" class="text-center py-4 text-slate-400">No hay acciones pendientes de moderación.</td>
+                <td colspan="3" class="text-center py-4 text-slate-400">No hay otras acciones pendientes de moderación.</td>
             </tr>
             </tbody>
         </table>

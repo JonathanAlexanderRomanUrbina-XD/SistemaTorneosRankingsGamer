@@ -7,172 +7,156 @@
     <style>
         body {
           text-align: center;
-          font-family: Arial, sans-serif;
-          background-color: #0f172a;
-          color: #e2e8f0;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background: linear-gradient(135deg, #3b82f6, #9333ea); /* azul -> morado */
+          color: #f9fafb;
+          min-height: 100vh;
+          margin: 0;
+          padding: 1rem;
         }
 
-        /* Tailwind CSS emulation for the provided classes */
-        .w-full {
-            width: 100%;
+        h1 {
+          font-size: 1.8rem;
+          font-weight: 800;
+          color: #ffeb3b; /* Amarillo vivo */
+          text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
-        .text-sm {
-            font-size: 0.875rem; /* 14px */
-        }
-        .border-separate {
-            border-collapse: separate;
-        }
-        .border-spacing-y-1 {
-            border-spacing: 0 0.25rem; /* 4px */
-        }
-        .text-slate-300 {
-            color: #cbd5e1;
-        }
-        .text-left {
-            text-align: left;
-        }
-        .bg-slate-800\/60 {
-            background-color: rgba(30, 41, 59, 0.6);
-        }
-        .px-3 {
-            padding-left: 0.75rem; /* 12px */
-            padding-right: 0.75rem; /* 12px */
-        }
-        .py-2 {
-            padding-top: 0.5rem; /* 8px */
-            padding-bottom: 0.5rem; /* 8px */
-        }
-        .border {
-            border-width: 1px;
-        }
-        .border-slate-700 {
-            border-color: #334155;
-        }
-        .rounded-md {
-            border-radius: 0.375rem; /* 6px */
-        }
-        .p-4 {
-            padding: 1rem; /* 16px */
-        }
-        .grid {
-            display: grid;
-        }
-        .gap-3 {
-            gap: 0.75rem; /* 12px */
-        }
-        .max-w-md {
-            max-width: 28rem; /* 448px */
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .mb-6 {
-            margin-bottom: 1.5rem; /* 24px */
-        }
-        .rounded {
-            border-radius: 0.25rem; /* 4px */
-        }
-        .bg-slate-800 {
-            background-color: #1e293b;
-        }
-        .px-3 {
-            padding-left: 0.75rem; /* 12px */
-            padding-right: 0.75rem; /* 12px */
-        }
-        .py-2 {
-            padding-top: 0.5rem; /* 8px */
-            padding-bottom: 0.5rem; /* 8px */
-        }
-        .bg-sky-500 {
-            background-color: #0ea5e9;
-        }
-        .hover\:bg-sky-600:hover {
-            background-color: #0284c7;
-        }
-        .mb-4 {
-            margin-bottom: 1rem; /* 16px */
-        }
-        .font-bold {
+
+        /* Botón compacto */
+        .compact-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(90deg, #22c55e, #16a34a); /* Verde vivo */
+            color: #fff;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-size: 0.95rem;
             font-weight: 700;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
-        .text-xl {
-            font-size: 1.25rem; /* 20px */
+
+        .compact-button:hover {
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+            transform: scale(1.05);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+        }
+
+        .compact-button svg {
+            margin-right: 0.5rem;
+            height: 1.25rem;
+            width: 1.25rem;
+        }
+
+        /* Formularios */
+        form input, form select {
+            padding: 0.6rem;
+            border-radius: 0.4rem;
+            border: none;
+            background-color: rgba(255,255,255,0.15);
+            color: #fff;
+            outline: none;
+            transition: background 0.3s;
+        }
+
+        form input:focus, form select:focus {
+            background-color: rgba(255,255,255,0.25);
+        }
+
+        form button {
+            background: linear-gradient(90deg, #ec4899, #db2777); /* Rosa fuerte */
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.4rem;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        form button:hover {
+            background: linear-gradient(90deg, #f472b6, #ec4899);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        /* Tabla */
+        table {
+            width: 100%;
+            border-spacing: 0 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        th {
+            text-align: left;
+            padding: 0.8rem;
+            color: #ffe4e6; /* Rosado claro */
+            font-weight: bold;
+        }
+
+        td {
+            padding: 0.8rem;
+            background: rgba(0,0,0,0.3);
+            border-radius: 0.4rem;
+            transition: background 0.3s;
+        }
+
+        tr:hover td {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .max-w-md {
+            max-width: 500px;
+            margin: 0 auto;
         }
     </style>
 </head>
 <body>
-
 <section layout:fragment="content">
+    <!-- Botón para regresar al Dashboard -->
+    <div class="mb-4" style="text-align: center; max-width: 800px; margin: 0 auto;">
+        <a th:href="@{/dashboard}" class="compact-button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+            </svg>
+            <span>Regresar al Dashboard</span>
+        </a>
+    </div>
 
-    <h1 class="text-xl font-bold mb-4">Jugadores</h1>
+    <h1>Jugadores</h1>
 
     <form th:action="@{/jugadores}" th:object="${jugador}" method="post"
-
           class="grid gap-3 max-w-md mb-6">
-
-        <input class="px-3 py-2 rounded bg-slate-800"
-
-               th:field="*{nombre}" placeholder="Nombre">
-
-        <input class="px-3 py-2 rounded bg-slate-800"
-
-               th:field="*{email}" placeholder="Email">
-
-        <select class="px-3 py-2 rounded bg-slate-800"
-
-                th:field="*{rol}">
-
+        <input th:field="*{nombre}" placeholder="Nombre">
+        <input th:field="*{email}" placeholder="Email">
+        <select th:field="*{rol}">
             <option value="JUGADOR">JUGADOR</option>
-
             <option value="MODERADOR">MODERADOR</option>
-
         </select>
-
-        <button class="px-3 py-2 rounded bg-sky-500 hover:bg-sky-600">
-
-            Registrar
-
-        </button>
-
+        <button>Registrar</button>
     </form>
 
-    <table class="w-full text-sm border-separate border-spacing-y-1">
-
-        <thead class="text-slate-300">
-
+    <table>
+        <thead>
         <tr>
-
-            <th class="text-left">ID</th>
-
-            <th class="text-left">Nombre</th>
-
+            <th>ID</th>
+            <th>Nombre</th>
             <th>Email</th>
-
             <th>Rol</th>
-
         </tr>
-
         </thead>
-
         <tbody>
-
-        <tr th:each="j : ${jugadores}" class="bg-slate-800/60">
-
-            <td class="px-3 py-2" th:text="${j.id}"></td>
-
-            <td class="px-3 py-2" th:text="${j.nombre}"></td>
-
-            <td class="px-3 py-2" th:text="${j.email}"></td>
-
-            <td class="px-3 py-2" th:text="${j.rol}"></td>
-
+        <tr th:each="j : ${jugadores}">
+            <td th:text="${j.id}"></td>
+            <td th:text="${j.nombre}"></td>
+            <td th:text="${j.email}"></td>
+            <td th:text="${j.rol}"></td>
         </tr>
-
         </tbody>
-
     </table>
-
 </section>
-
 </body>
-
 </html>

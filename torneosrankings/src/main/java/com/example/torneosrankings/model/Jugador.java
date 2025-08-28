@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 @Entity
 @Table(name = "Usuarios")
 public class Jugador {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -20,7 +21,20 @@ public class Jugador {
     @NotBlank
     private String rol = "JUGADOR"; // JUGADOR / MODERADOR / ADMIN
 
-    // getters/setters
+    // Constructor sin argumentos (necesario para JPA y para Spring si no tienes otros)
+    public Jugador() {
+    }
+
+    // CONSTRUCTOR NECESARIO: Este constructor permite crear un Jugador con todos sus campos.
+    // Asegúrate de que los tipos de datos (Long, String) coincidan con tus campos.
+    public Jugador(Long id, String nombre, String email, String rol) {
+        this.id = id;
+        this.nombre = nombre;
+        this.email = email;
+        this.rol = rol;
+    }
+
+    // --- Getters y Setters ---
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getNombre() { return nombre; }

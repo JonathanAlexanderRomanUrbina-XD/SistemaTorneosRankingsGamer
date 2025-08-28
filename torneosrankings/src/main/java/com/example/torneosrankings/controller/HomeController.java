@@ -1,79 +1,98 @@
 package com.example.torneosrankings.controller;
 
+// Importaciones relacionadas con Jugador y JugadorService
+// Si estos ya no son usados en otros métodos de HomeController,
+// el IDE te sugerirá eliminarlos. Si sí se usan, déjalos.
+import com.example.torneosrankings.model.Jugador;
+import com.example.torneosrankings.service.JugadorService;
+
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model; // Importa Model para pasar atributos a la vista
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping; // Importa PostMapping
-import org.springframework.web.bind.annotation.RequestParam; // Importa RequestParam
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+// Importaciones de List y ArrayList
+// Si estos ya no son usados en otros métodos de HomeController,
+// el IDE te sugerirá eliminarlos. Si sí se usan, déjalos.
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class HomeController {
 
-    @GetMapping("/")
-    public String home(Model model) { // Añade Model como parámetro
-        model.addAttribute("title", "Iniciar Sesión"); // Cambiado para el título de la página de login
-        return "login"; // Modificado para que retorne login.html
+    // Si JugadorService solo se usaba en el método /moderacion (que ahora eliminamos),
+    // entonces puedes eliminar la inyección y el parámetro del constructor.
+    // Si otros métodos de HomeController lo necesitan, déjalos.
+    private final JugadorService jugadorService;
+
+    // Modifica el constructor si JugadorService ya no es necesario aquí.
+    public HomeController(JugadorService jugadorService) {
+        this.jugadorService = jugadorService;
     }
 
-    // Método para mostrar el formulario de login cuando se accede directamente a /login (GET)
+    @GetMapping("/")
+    public String home(Model model) {
+        model.addAttribute("title", "Iniciar Sesión");
+        return "login";
+    }
+
     @GetMapping("/login")
     public String showLoginForm(Model model) {
         model.addAttribute("title", "Iniciar Sesión");
         return "login";
     }
 
-    // Método para procesar el envío del formulario de login (POST)
     @PostMapping("/login")
     public String processLogin(@RequestParam String username, @RequestParam String password, Model model) {
         System.out.println("Intento de login con usuario: " + username + " y contraseña: " + password);
-
-        // Lógica de prueba simple para simular autenticación
-        // Credenciales personales configuradas aquí:
         if ("jonathanalexanderroman51@gmail.com".equals(username) && "jonathanalexanderromanurbina".equals(password)) {
-            return "redirect:/dashboard"; // Redirige a una página de éxito
+            return "redirect:/dashboard";
         } else {
             model.addAttribute("error", "Credenciales inválidas. Inténtalo de nuevo.");
             model.addAttribute("title", "Iniciar Sesión");
-            return "login"; // Vuelve a mostrar el formulario de login con un mensaje de error
+            return "login";
         }
     }
 
-    // Método para mostrar una página de "dashboard" o "inicio" después de un login exitoso
     @GetMapping("/dashboard")
     public String showDashboard(Model model) {
         model.addAttribute("title", "Dashboard Principal");
-        return "index"; // Esto usará tu index.html como página de dashboard temporal
+        return "index";
     }
 
-    @GetMapping("/reportes")
-    public String showReportesPage(Model model) { // Método para /reportes
-        model.addAttribute("title", "Reportes"); // Establece el título
-        return "reportes"; // Mapea a src/main/resources/templates/reportes.html
-    }
-
+    // --- MÉTODO showModeracionPage ELIMINADO PARA EVITAR CONFLICTO ---
+    // Este método ha sido removido porque ModeracionController ya maneja @GetMapping("/moderacion").
+    // Su lógica se ha movido al ModeracionController para evitar el mapeo ambiguo.
+    /*
     @GetMapping("/moderacion")
-    public String showModeracionPage(Model model) { // Método para /moderacion
-        model.addAttribute("title", "Moderación"); // Establece el título
-        return "moderacion"; // Mapea a src/main/resources/templates/moderacion.html
+    public String showModeracionPage(Model model) {
+        model.addAttribute("title", "Panel de Moderación");
+        List<Jugador> moderadores = jugadorService.findByRol("MODERADOR");
+        if (moderadores == null) {
+            moderadores = new ArrayList<>();
+        }
+        model.addAttribute("moderadores", moderadores);
+        model.addAttribute("accionesPendientes", new ArrayList<>());
+        return "moderacion";
     }
+    */
 
     @GetMapping("/brackets")
-    public String showBracketsPage(Model model) { // Método para /brackets
-        model.addAttribute("title", "Brackets"); // Establece el título
-        return "brackets"; // Mapea a src/main/resources/templates/brackets.html
+    public String showBracketsPage(Model model) {
+        model.addAttribute("title", "Brackets");
+        return "brackets";
     }
 
-    // Método para mostrar el formulario de registro
     @GetMapping("/registro")
     public String showRegistrationForm(Model model) {
         model.addAttribute("title", "Registro de Usuario");
-        return "registro"; // Mapea a src/main/resources/templates/registro.html
+        return "registro";
     }
 
-    // Método para mostrar el formulario de recuperación de contraseña
     @GetMapping("/recuperar-contrasena")
     public String showForgotPasswordForm(Model model) {
         model.addAttribute("title", "Recuperar Contraseña");
-        return "recuperar-contrasena"; // Mapea a src/main/resources/templates/recuperar-contrasena.html
+        return "recuperar-contrasena";
     }
 }
